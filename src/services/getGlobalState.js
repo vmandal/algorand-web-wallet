@@ -4,23 +4,26 @@ import useGlobalHook from "use-global-hook";
 const initialState = {
   loginStatus: false,
   address: '',
-  mnemonic: "",
-  errorMessage: '' 
+  mnemonic: '',
+  errorMessage: '',
+  refresh: false
 };
 
 const actions = {
-  setLoginStatus: (store, loginStatus) => {
-    //const counter = store.state.counter + amount;
-    store.setState({ loginStatus });
-  },
-  setMnemonic: (store, mnemonic) => {
+  setMnemonic: ( store, mnemonic ) => {
     store.setState({ ...store, mnemonic });
   },
-  setAddress: (store, address) => {
-    store.setState({ ...store, address });
+  doRefresh: ( store ) => {
+    store.setState({ ...store, ...{ refresh: !store.refresh }});
   },
-  setErrorMessage: (store, errorMessage) => {
+  setErrorMessage: ( store, errorMessage ) => {
     store.setState({ ...store, errorMessage });
+  },
+  doLogin: ( store, loginVars ) => {
+    store.setState({ ...store, ...loginVars });
+  },
+  doLogout: ( store ) => {
+    store.setState({ ...store, ...initialState });
   },
 
 };

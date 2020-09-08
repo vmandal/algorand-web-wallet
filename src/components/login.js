@@ -13,8 +13,13 @@ function Login() {
     var keys = algosdk.generateAccount();
     var mnemonic = algosdk.secretKeyToMnemonic(keys.sk);
     globalActions.setMnemonic(mnemonic)
+    
+    /*globalActions.setMnemonic(mnemonic)
     globalActions.setAddress(keys.addr)
-    globalActions.setLoginStatus(true)
+    globalActions.setLoginStatus(true)*/
+    //globalActions.doLogin(mnemonic, keys.addr)
+    //globalActions.doLogin({ mnemonic, address: keys.addr, loginStatus: true })
+
   }
 
   const handleLogin = ( event ) => {
@@ -31,15 +36,18 @@ function Login() {
 
     var isValid = algosdk.isValidAddress(keys.addr);
     if (isValid){
-        globalActions.setAddress(keys.addr)
-        globalActions.setLoginStatus(true)
+        //globalActions.setAddress(keys.addr)
+        //globalActions.setLoginStatus(true)
+        globalActions.doLogin({ address: keys.addr, loginStatus: true })
     }    
   }
 
   const handleLogout = ( event ) => {
-    globalActions.setAddress('')
-    globalActions.setMnemonic(''); // tmp: during development
-    globalActions.setLoginStatus(false)
+    /*globalActions.setAddress('')
+    //globalActions.setMnemonic(''); // tmp: during development
+    globalActions.setLoginStatus(false)*/
+    globalActions.doLogout()
+
   }
 
   if (globalState.loginStatus){

@@ -1,45 +1,66 @@
 import React, {useState, useEffect} from 'react';
 import getGlobalState from '../services/getGlobalState';
-import algorandClient from '../services/algorandClient';
-//import {Button, Form} from "react-bootstrap"
-//import algosdk from "algosdk";
+import {Table} from "react-bootstrap"
+import moment from "moment"
 
 function Transactions() {
 
+
   const [globalState, globalActions] = getGlobalState();
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    //console.log('mounted')
-    let accountDetail
-    if (globalState.address !== ''){
-        (async () => {
 
-            accountDetail = await algorandClient.accountInformation(globalState.address);
-            console.log(accountDetail);
-            console.log(accountDetail.amount / 1000000)
-    
-        })().catch(e => {
-            console.log(e);
-        });    
+    if (globalState.address !== ''){
+
+      globalActions.setErrorMessage('loading...')
+
+      fetch(`https://testnet-algorand.api.purestake.io/idx2/v2/accounts/${globalState.address}/transactions?` + new URLSearchParams({
+        limit: '10',
+      }), {
+        headers: {
+          'x-api-key': 'J9bNS0QTck8EeSsLpc97W1YP4HXFl9iB2JaBJRxt'
+        },
+      })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          //console.log(result)
+          setTransactions(result.transactions)
+          globalActions.setErrorMessage('')
+        },
+        (error) => {
+          globalActions.setErrorMessage(error)
+        }
+      )
+
     }
 
-  }, [globalState.address]);
-
-  const getAccountBalance = async ( address ) => {
-        
-    
-    /*this.setState({
-      balance: accountDet.amount / 1000000
-    });*/    
-  };
-
-
+  }, [globalState.refresh]);
 
   if (globalState.loginStatus){
     return (
-        <>
-        Account balance:         
-        </>
+      <>
+        <Table striped bordered hover>
+            <thead key={1}>
+              <tr>
+                <th>Date</th>
+                <th>Amout</th>
+                <th>Receiver</th>
+              </tr>  
+            </thead>
+            <tbody>
+              {transactions.map(t => (
+                  <tr key={t['id']}>
+                    <th>{moment.unix(t['round-time']).format("MMM Do YY")}</th>
+                    <th>{t['payment-transaction']['amount'] / 1000000}</th>
+                    <th>{t['payment-transaction']['receiver'].substring(1, 8) + '...'}</th>
+                  </tr>
+              ))}
+          </tbody>
+        </Table>
+        (last 10 transactions)
+      </>
     );
   }else{
     return (
@@ -48,9 +69,6 @@ function Transactions() {
         </>
     );
   }
-
-
-
 
 }
 
