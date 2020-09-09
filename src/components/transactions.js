@@ -21,13 +21,13 @@ function Transactions() {
         limit: '10',
       }), {
         headers: {
-          'x-api-key': 'J9bNS0QTck8EeSsLpc97W1YP4HXFl9iB2JaBJRxt'
+          'x-api-key': globalState.apiKeyPurestake
         },
       })
       .then(res => res.json())
       .then(
         (result) => {
-          //console.log(result)
+          console.log(result)
           if (result.transactions === undefined){ 
             globalActions.setErrorMessage('Not able to connect. Check browser console')
           }else{
@@ -54,7 +54,7 @@ function Transactions() {
               <tr>
                 <th>Date</th>
                 <th>Amout</th>
-                <th>Account</th>
+                <th>Receiver</th>
                 <th>Type</th>
               </tr>  
             </thead>
@@ -63,7 +63,7 @@ function Transactions() {
                   <tr key={t['id']}>
                     <th>{moment.unix(t['round-time']).format("MMM Do YY")}</th>
                     <th>{t['payment-transaction']['amount'] / 1000000}</th>
-                    <th>{t['payment-transaction']['receiver'].substring(1, 8) + '...'}</th>
+                    <th>{t['payment-transaction']['receiver'].substring(0, 8) + '...'}</th>
                     <th>
                       { t['payment-transaction']['receiver'] == globalState.address && 'Credit' }
                       { t['payment-transaction']['receiver'] != globalState.address && <span style={{ color: 'red' }}>Debit</span> }

@@ -15,6 +15,13 @@ function Transfer() {
 
   const handleSend = () => {
 
+    // validate address
+    var isValid = algosdk.isValidAddress(receiver);
+    if (!isValid){
+      globalActions.setErrorMessage('Invalid receiver address')
+      return
+    }
+
     setTransactionSuccess(false);
     setDisableBtn(true);
 
@@ -56,7 +63,7 @@ function Transfer() {
         txid: txId,
       }), {
         headers: {
-          'x-api-key': 'J9bNS0QTck8EeSsLpc97W1YP4HXFl9iB2JaBJRxt'
+          'x-api-key': globalState.apiKeyPurestake
         },
       })
       .then(res => res.json())

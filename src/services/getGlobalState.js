@@ -6,7 +6,8 @@ const initialState = {
   address: '',
   mnemonic: '',
   errorMessage: '',
-  refresh: false
+  refresh: false,
+  apiKeyPurestake: 'J9bNS0QTck8EeSsLpc97W1YP4HXFl9iB2JaBJRxt'
 };
 
 const actions = {
