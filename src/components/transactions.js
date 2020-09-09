@@ -52,7 +52,7 @@ function Transactions() {
               <tr>
                 <th>Date</th>
                 <th>Amout</th>
-                <th>Receiver</th>
+                <th>Account</th>
                 <th>Type</th>
               </tr>  
             </thead>

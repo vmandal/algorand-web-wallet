@@ -12,11 +12,4 @@ const algorandClient = new algosdk.Algodv2(
     port
 );
 
-/* test connection
-    (async () => {
-        console.log(await algorandClient.versions());
-    })().catch(e => {
-        console.log(e);
-    });*/
-
 export default algorandClient;
