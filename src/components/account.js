@@ -13,20 +13,20 @@ function Account() {
         (async () => {
 
             accountDetail = await algorandClient.accountInformation(globalState.address).do();
-            //console.log(accountDetail);
 
             let amt = accountDetail.amount / 1000000
             setcurrentAmount(amt)
-            globalActions.doRefresh()
     
         })().catch(e => {
             console.log(e);
         });    
     }
 
-  }, [globalState.address, globalState.refresh, globalActions]);
+  }, [globalState.address]);
 
   const [currentAmount, setcurrentAmount] = useState(0);
+
+  
 
   if (globalState.loginStatus){
     return (

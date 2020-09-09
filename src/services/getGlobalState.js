@@ -13,8 +13,8 @@ const actions = {
   setMnemonic: ( store, mnemonic ) => {
     store.setState({ ...store, mnemonic });
   },
-  doRefresh: ( store ) => {
-    store.setState({ ...store, ...{ refresh: !store.refresh }});
+  doRefresh: ( store, refresh ) => {
+    store.setState({ ...store, refresh });
   },
   setErrorMessage: ( store, errorMessage ) => {
     store.setState({ ...store, errorMessage });

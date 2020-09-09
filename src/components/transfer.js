@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import getGlobalState from '../services/getGlobalState';
 import algorandClient from '../services/algorandClient';
 import {Button, Form, Alert} from "react-bootstrap"
@@ -11,10 +11,12 @@ function Transfer() {
   const [receiver, setReceiver] = useState('');
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
+  const [disableBtn, setDisableBtn] = useState(false)
 
   const handleSend = () => {
 
-    setTransactionSuccess(false)
+    setTransactionSuccess(false);
+    setDisableBtn(true);
 
     (async () => {
 
@@ -23,7 +25,6 @@ function Transfer() {
       let params = await algorandClient.getTransactionParams().do();
       params.fee = 1000;
       params.flatFee = true;
-      //console.log("params", params);
 
       let noteEncoded = algosdk.encodeObj(note);
       let txn = algosdk.makePaymentTxnWithSuggestedParams(myAccount.addr, receiver, amount * 1000000, undefined, noteEncoded, params); 
@@ -34,7 +35,7 @@ function Transfer() {
       globalActions.setErrorMessage("Signed transaction with txID: %s", txId);
 
         // Submit the transaction  
-      globalActions.setErrorMessage('transaction submitted...')  
+      globalActions.setErrorMessage('transaction submitted. Waiting for confirmation...')
       await algorandClient.sendRawTransaction( signedTxn ).do();
 
         // check status
@@ -44,7 +45,8 @@ function Transfer() {
       console.log(e);
     }); 
 
-  }
+  };
+
 
   const updateTransactionStatus = async function ( txId, receiver ) {
 
@@ -60,15 +62,19 @@ function Transfer() {
       .then(res => res.json())
       .then(
         (result) => {
+
           //console.log(result)
-          if (result.transactions.length > 0 ){
+          if (result.transactions === undefined){
+            console.log(result);
+            globalActions.setErrorMessage(result)
+          }else if (result.transactions.length > 0 ){
             clearInterval(myInterval)
-            //console.log(result.transactions)
             setTransactionSuccess(true)
             globalActions.setErrorMessage('')
-            globalActions.doRefresh()
+            globalActions.doRefresh(!globalState.refresh)
             setAmount(0)
             setNote('')
+            setDisableBtn(false)
           }
         },
         (error) => {
@@ -82,6 +88,7 @@ function Transfer() {
   if (globalState.loginStatus){
     return (
         <>
+
         <Form>      
 
           <Form.Group controlId="receiver">
@@ -112,7 +119,8 @@ function Transfer() {
           </Form.Group>
           
           </Form>
-          <Button onClick={handleSend} variant="primary">Send</Button>
+          <Button onClick={() => handleSend()} variant="primary" disabled={disableBtn}>Send</Button>
+          <br/>
           {transactionSuccess && 
             <Alert variant="success">Transaction done!</Alert>
           }
@@ -125,9 +133,6 @@ function Transfer() {
         </>
     );
   }
-
-
-
 
 }
 

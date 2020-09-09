@@ -26,17 +26,23 @@ function Transactions() {
       .then(
         (result) => {
           //console.log(result)
-          setTransactions(result.transactions)
-          globalActions.setErrorMessage('')
+          if (result.transactions === undefined){ 
+            globalActions.setErrorMessage('Not able to connect. Check browser console')
+          }else{
+            setTransactions(result.transactions)
+            globalActions.setErrorMessage('')
+          }
+
         },
         (error) => {
           globalActions.setErrorMessage(error)
+          console.log(error)
         }
       )
 
     }
 
-  }, [globalState.refresh]);
+  }, [globalState.refresh, globalState.address]);
 
   if (globalState.loginStatus){
     return (
@@ -47,6 +53,7 @@ function Transactions() {
                 <th>Date</th>
                 <th>Amout</th>
                 <th>Receiver</th>
+                <th>Type</th>
               </tr>  
             </thead>
             <tbody>
@@ -55,6 +62,11 @@ function Transactions() {
                     <th>{moment.unix(t['round-time']).format("MMM Do YY")}</th>
                     <th>{t['payment-transaction']['amount'] / 1000000}</th>
                     <th>{t['payment-transaction']['receiver'].substring(1, 8) + '...'}</th>
+                    <th>
+                      { t['payment-transaction']['receiver'] == globalState.address && 'Credit' }
+                      { t['payment-transaction']['receiver'] != globalState.address && <span style={{ color: 'red' }}>Debit</span> }
+                    </th>
+                    
                   </tr>
               ))}
           </tbody>
