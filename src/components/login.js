@@ -34,7 +34,6 @@ function Login() {
 
   const handleLogout = ( event ) => {
     globalActions.doLogout()
-
   }
 
   if (globalState.loginStatus){

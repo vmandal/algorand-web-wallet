@@ -11,6 +11,8 @@ function Transactions() {
 
   useEffect(() => {
 
+    setTransactions([]); // 
+
     if (globalState.address !== ''){
 
       globalActions.setErrorMessage('loading...')
