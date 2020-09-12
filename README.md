@@ -1,5 +1,5 @@
-# Algorand-Wallet
-Algorand blockchain wallet (under development)
+# bharat-wallet
+Cryto wallet with Algorand blockchain support (under development)
 
 
 ## Available Scripts
@@ -17,3 +17,8 @@ In the project directory, you can run:
 
 Or 
 `npm start`
+
+
+### Blockchains supported
+
+- Algorand
