@@ -1,5 +1,5 @@
-# bharat-wallet
-Cryto wallet with Algorand blockchain support (under development)
+# algorand-web-wallet
+Algorand blockchain web wallet (under development)
 
 
 ## Available Scripts
