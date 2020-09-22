@@ -27,7 +27,7 @@ function Transactions() {
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result)
+          //console.log(result)
           if (result.transactions === undefined){ 
             globalActions.setErrorMessage('Not able to connect. Check browser console')
           }else{
@@ -65,8 +65,8 @@ function Transactions() {
                     <th>{t['payment-transaction']['amount'] / 1000000}</th>
                     <th>{t['payment-transaction']['receiver'].substring(0, 8) + '...'}</th>
                     <th>
-                      { t['payment-transaction']['receiver'] == globalState.address && 'Credit' }
-                      { t['payment-transaction']['receiver'] != globalState.address && <span style={{ color: 'red' }}>Debit</span> }
+                      { t['payment-transaction']['receiver'] === globalState.address && 'Credit' }
+                      { t['payment-transaction']['receiver'] !== globalState.address && <span style={{ color: 'red' }}>Debit</span> }
                     </th>
                     
                   </tr>

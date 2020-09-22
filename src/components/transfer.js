@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState} from 'react';
 import getGlobalState from '../services/getGlobalState';
-import algorandClient from '../services/algorandClient';
+//import algorandClient from '../services/algorandClient';
 import {Button, Form, Alert} from "react-bootstrap"
 import algosdk from "algosdk";
 
@@ -12,6 +12,18 @@ function Transfer() {
   const [amount, setAmount] = useState(0);
   const [note, setNote] = useState('');
   const [disableBtn, setDisableBtn] = useState(false)
+
+  const token = {
+    'X-API-Key': globalState.apiKeyPurestake, 
+  }
+  const api = "https://testnet-algorand.api.purestake.io/ps2";
+  const port = '';            
+  const algorandClient = new algosdk.Algodv2(    
+      token, 
+      api, 
+      port
+  );
+
 
   const handleSend = () => {
 

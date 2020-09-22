@@ -9,7 +9,25 @@ import Transfer from "./components/transfer"
 
 function App() {
 
-  const [globalState] = getGlobalState();
+  const [globalState, globalActions] = getGlobalState();
+
+  if (globalState.apiKeyPurestake === ''){
+    globalActions.setErrorMessage('API key not set in src/services/getGlobalState.js')
+    return (
+      <><br/>
+        <Container className="App">      
+          <Row><Col><br/><h1 className="header">Algorand Wallet (V2)</h1></Col></Row>
+          <Row>
+          <Col>
+          {globalState.errorMessage &&
+            <Alert variant="danger">{globalState.errorMessage}</Alert>
+          }          
+          </Col>
+          </Row>
+        </Container>
+      </>  
+    )
+  }
 
   return (
     <><br/>

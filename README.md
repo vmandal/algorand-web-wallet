@@ -19,6 +19,11 @@ Or
 `npm start`
 
 
-### Blockchains supported
+## Blockchains supported
 
 - Algorand
+
+## Get your API Key
+
+- You would need an API key from https://developer.purestake.io/
+- Set the key in src/services/getGlobalState.js

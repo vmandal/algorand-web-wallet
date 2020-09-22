@@ -7,7 +7,7 @@ const initialState = {
   mnemonic: '',
   errorMessage: '',
   refresh: false,
-  apiKeyPurestake: 'J9bNS0QTck8EeSsLpc97W1YP4HXFl9iB2JaBJRxt'
+  apiKeyPurestake: '', //set your Purestake API Key here
 };
 
 const actions = {

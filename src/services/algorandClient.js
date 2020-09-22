@@ -1,15 +1,25 @@
 import algosdk from 'algosdk';
+import getGlobalState from './getGlobalState';
 
-const token = {
-    'X-API-Key': 'J9bNS0QTck8EeSsLpc97W1YP4HXFl9iB2JaBJRxt'
+//const algorandClient
+
+function algorandClient() {
+
+    const [globalState] = getGlobalState();
+
+    const token = {
+        'X-API-Key': globalState.apiKeyPurestake, 
+    }
+    const api = "https://testnet-algorand.api.purestake.io/ps2";
+    const port = '';
+    
+    return new algosdk.Algodv2(    
+        token, 
+        api, 
+        port
+    );
 }
-const api = "https://testnet-algorand.api.purestake.io/ps2";
-const port = '';
+//algorandClientFn()
 
-const algorandClient = new algosdk.Algodv2(    
-    token, 
-    api, 
-    port
-);
 
 export default algorandClient;
